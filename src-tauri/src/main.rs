@@ -18,7 +18,7 @@ fn generate_jwt(connected_app_consumer_key: String, org_username: String, pkcs8_
 
     //PEM file needs to be converted to string?
     let pem_file_contents = "";
-    let mut key_pair = RS256KeyPair::from_pem(pem_file_contents);
+    let mut key_pair = RS256KeyPair::from_pem(pem_file_contents).unwrap();
     let claims = Claims::create(Duration::from_hours(1))
         .with_issuer(connected_app_consumer_key)
         .with_subject(org_username)
@@ -26,14 +26,5 @@ fn generate_jwt(connected_app_consumer_key: String, org_username: String, pkcs8_
 
     let token = key_pair.sign(claims);
 
-    /*
-    Create Signature
-
-    1. Create Private Key
-        1. Encode PKCS8 into a PKCS8 Key Spec
-        2. Create a private RSA key from the PKCS8 key spec
-    2. Create Signature
-        1. Create signature with SHA256withRSA algorithm
-        2. Sign with RSA Key from step 1
-     */
+    println!("Token {}", &token.unwrap());
 }
