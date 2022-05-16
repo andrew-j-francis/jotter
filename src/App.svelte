@@ -63,8 +63,8 @@
     <Header platformName="Jotter - The JWT Generator for Salesforce OCI" bind:isSideNavOpen></Header>
     <SideNav bind:isOpen={isSideNavOpen}>
         <SideNavItems>
-            <SideNavLink text="Help Quip"/>
-            <SideNavLink text="Github Repo"/>
+            <SideNavLink text="OCI Setup Quip" href="https://quip.com/aHwbAgtEj4NL"/>
+            <SideNavLink text="Github Repo" href="https://github.com/andrew-j-francis/jotter"/>
         </SideNavItems>
     </SideNav>
 
