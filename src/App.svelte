@@ -2,7 +2,7 @@
     import {invoke} from '@tauri-apps/api/tauri'
     import "carbon-components-svelte/css/g90.css";
     import {
-        Button, Column, Content, FileUploader,
+        Button, Column, Content, DataTable, FileUploader,
         Form,
         FormGroup, Grid,
         Header, Row,
@@ -11,10 +11,12 @@
     } from "carbon-components-svelte";
 
     let isSideNavOpen = false;
+
     let consumerKey;
     let username;
     let files = [];
     let fileText;
+    let jwtList = [];
 
     function handleSubmit() {
         if (files[0]) {
@@ -32,7 +34,22 @@
     }
 
     function generateJWT() {
-        invoke('generate_jwt', {connectedAppConsumerKey: consumerKey, orgUsername: username, pemFileContents: fileText})
+        invoke('generate_jwt', {
+            connectedAppConsumerKey: consumerKey,
+            orgUsername: username,
+            pemFileContents: fileText
+        }).then((newJWT) => {
+                jwtList = [...jwtList, {
+                    id: newJWT,
+                    create: new Date(),
+                    jwt: newJWT
+                }];
+            }
+        )
+    }
+
+    function copyToClipboard(generatedJWT) {
+        invoke('copy_to_clipboard', {jwt: generatedJWT})
     }
 </script>
 
@@ -78,8 +95,35 @@
                 </Column>
             </Row>
         </Grid>
-    </Content>
 
-    <hr>
+        <hr>
+        <h4>Generated JWTs</h4>
+        <p>Note: JWTs expire after 1 hour</p>
+        <DataTable
+                headers={[
+                        { key: "create", value: "Created" },
+                        { key: "jwt", value: "JWT" },]}
+                rows={jwtList}
+        >
+            <svelte:fragment slot="cell-header" let:header>
+                {#if header.key === "jwt"}
+                    JWT
+                {:else}
+                    {header.value}
+                {/if}
+            </svelte:fragment>
+            <svelte:fragment slot="cell" let:row let:cell>
+                {#if cell.key === "jwt"}
+                    <div class="formInput">
+                        <Button on:click={() => copyToClipboard(cell.value)}>
+                            Copy To Clipboard
+                        </Button>
+                    </div>
+                {:else}
+                    {cell.value}
+                {/if}
+            </svelte:fragment>
+        </DataTable>
+    </Content>
 
 </main>
