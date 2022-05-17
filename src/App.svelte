@@ -6,7 +6,7 @@
         Form,
         FormGroup, Grid,
         Header, Row,
-        SideNav, SideNavItems, SideNavLink,
+        SideNav, SideNavItems, SideNavLink, SideNavMenuItem,
         TextInput
     } from "carbon-components-svelte";
 
@@ -19,6 +19,7 @@
     let jwtList = [];
 
     async function openQuip() {
+        console.log("clicked");
         await open('https://quip.com/aHwbAgtEj4NL')
     }
 
@@ -71,8 +72,8 @@
     <Header platformName="Jotter - The JWT Generator for Salesforce OCI" bind:isSideNavOpen></Header>
     <SideNav bind:isOpen={isSideNavOpen}>
         <SideNavItems>
-            <SideNavLink text="OCI Setup Quip" on:click={openQuip()}/>
-            <SideNavLink text="Github Repo" on:click={openGitHub}/>
+            <SideNavMenuItem text="OCI Setup Quip" on:click={openQuip}/>
+            <SideNavMenuItem text="Github Repo" on:click={openGitHub}/>
         </SideNavItems>
     </SideNav>
 
