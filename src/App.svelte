@@ -18,6 +18,14 @@
     let fileText;
     let jwtList = [];
 
+    async function openQuip() {
+        await open('https://quip.com/aHwbAgtEj4NL')
+    }
+
+    async function openGitHub() {
+        await open('https://github.com/andrew-j-francis/jotter')
+    }
+
     function handleSubmit() {
         if (files[0]) {
             let fileReader = new FileReader();
@@ -63,8 +71,8 @@
     <Header platformName="Jotter - The JWT Generator for Salesforce OCI" bind:isSideNavOpen></Header>
     <SideNav bind:isOpen={isSideNavOpen}>
         <SideNavItems>
-            <SideNavLink text="OCI Setup Quip" href="https://quip.com/aHwbAgtEj4NL"/>
-            <SideNavLink text="Github Repo" href="https://github.com/andrew-j-francis/jotter"/>
+            <SideNavLink text="OCI Setup Quip" on:click={openQuip()}/>
+            <SideNavLink text="Github Repo" on:click={openGitHub}/>
         </SideNavItems>
     </SideNav>
 
